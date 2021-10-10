@@ -1,0 +1,205 @@
+<div class="container">
+  <div class="responsive" fxLayout="column">
+
+    <!-- Table Title -->
+    <div class="table-title-container" fxLayoutAlign="center center">
+      <h2 class="text-grey libre" fxLayoutAlign="center center">Favorite Movie List</h2>
+    </div>
+
+    <!-- Table Area -->
+    <table cellspacing="0" class="table-container">
+
+      <!-- Header -->
+      <tr class="table-header">
+        <th></th>
+        <th *ngFor="let tableColumn of tableColumns">
+          <p class="open-sans semi-bold sm grey" fxLayoutAlign="start">{{tableColumn}}</p>
+        </th>
+      </tr>
+
+      <!-- Filters -->
+      <tr class="table-header">
+        <th></th>
+
+        <!-- Filter By Title -->
+        <th>
+          <input fxLayoutAlign="start" class="search-input open-sans" type="text" (keyup)="search()"
+            [(ngModel)]="keywordTitle" name="filterTitle" placeholder="Search by title">
+        </th>
+
+        <!-- Filter By Year -->
+        <th>
+          <input fxLayoutAlign="start" class="search-input open-sans" type="text" (keyup)="search()"
+            [(ngModel)]="keywordYear" name="filterYear" placeholder="Search by year">
+        </th>
+
+        <!-- Filter By Lenght -->
+        <th>
+          <input fxLayoutAlign="start" class="search-input open-sans" type="text" (keyup)="search()"
+            [(ngModel)]="keywordLength" name="filterLenght" placeholder="Search by time">
+        </th>
+
+        <!-- Filter By Director -->
+        <th class="dropdown-container">
+
+          <div [ngClass]="isDirectorSearchBoxOpen ? 'focus-dropdown-menu dropdown-box' : 'dropdown-box' " fxLayout="row"
+            fxLayoutAlign="space-between center">
+            <div fxFlex="0.5rem"></div>
+            <p *ngIf="directorFilter.length != directors.length" class="open-sans text-grey sm" fxLayoutAlign="start"
+              fxFlex="auto">{{directorFilter.length}} items selected</p>
+            <p *ngIf="directorFilter.length === directors.length" class="open-sans text-grey sm" fxLayoutAlign="start"
+              fxFlex="auto">All</p>
+            <mat-icon fxFlex="1rem" class="cursor text-grey"
+              (click)="isDirectorSearchBoxOpen = !isDirectorSearchBoxOpen">expand_more</mat-icon>
+            <div fxFlex="0.5rem"></div>
+          </div>
+
+          <!-- Floating Dropdown Selector -->
+          <div *ngIf="isDirectorSearchBoxOpen" fxLayout="column" class="floating-dropdown">
+
+            <!-- Select All Button -->
+            <div class="select-all-directors">
+              <div style="height: inherit;" fxLayout="row" fxLayoutAlign="space-between center">
+                <mat-checkbox
+                  (change)="onDirectorSelection(null, directors.length === 0 ? true : directors.length != directorFilter.length ? true : false)"
+                  [checked]="directors.length === directorFilter.length"></mat-checkbox>
+                <mat-icon class="text-grey cursor lg" (click)="isDirectorSearchBoxOpen = !isDirectorSearchBoxOpen">close
+                </mat-icon>
+              </div>
+            </div>
+
+            <!-- Items -->
+            <div *ngFor="let director of directors" fxLayoutAlign="start center" class="dropdown-items-filter">
+              <div style="height: inherit;" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+                <mat-checkbox [checked]="director.isFlagged" [(ngModel)]="director.isFlagged"
+                  (change)="onDirectorSelection(director)"></mat-checkbox>
+                <div>{{director.name}}</div>
+              </div>
+            </div>
+
+          </div>
+        </th>
+
+        <!-- Filter By Certification -->
+        <th class="dropdown-container">
+
+          <div [ngClass]="isCertificationSearchBoxOpen ? 'focus-dropdown-menu dropdown-box' : 'dropdown-box' "
+            fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxFlex="0.5rem"></div>
+
+            <div *ngIf="selectedCertification" fxLayoutAlign="start" fxLayoutAlign="space-between" fxFlex="auto">
+              <p  class="open-sans text-grey sm" >
+                {{selectedCertification}}
+              </p>
+              <mat-icon class="cursor text-grey" (click)="clearCertificationFilter()">close</mat-icon>
+            </div>
+
+            <p *ngIf="!selectedCertification" class="open-sans text-grey sm" fxLayoutAlign="start" fxFlex="auto">Select
+              Status</p>
+            <mat-icon fxFlex="1rem" class="cursor text-grey"
+              (click)="isCertificationSearchBoxOpen = !isCertificationSearchBoxOpen">expand_more</mat-icon>
+            <div fxFlex="0.5rem"></div>
+          </div>
+
+          <!-- Floating Dropdown Selector -->
+          <div *ngIf="isCertificationSearchBoxOpen" fxLayout="column" class="floating-dropdown">
+
+            <!-- Items -->
+            <div *ngFor="let certification of certifications" fxLayoutAlign="start center"
+              class="dropdown-items-filter">
+              <div style="height: inherit;" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+                <div class="certification-wrapper cursor" (click)="onCertificationSelection(certification)">
+                  <p [ngStyle]="getCertificationColor(certification)" class="open-sans sm certification-text bold">
+                    {{certification}}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </th>
+
+        <!-- Filter By Rating -->
+        <th>
+          <input fxLayoutAlign="start" class="search-input open-sans" type="text" (keyup)="search()"
+            [(ngModel)]="keywordRating" name="filterLenght" placeholder="Search by rating">
+        </th>
+      </tr>
+
+      <!-- Content -->
+      <tr (click)="openDialog(movie)" *ngFor="let movie of filteredMovies"
+        [ngClass]="selectedItem === movie._id ? 'selected-row cursor' : 'cursor'">
+        <td style="max-width: 1px;">
+          <div fxLayoutAlign="center">
+            <div [ngClass]="selectedItem === movie._id ? 'selected-button cursor' : 'button cursor'"></div>
+          </div>
+        </td>
+
+        <td>
+          <p class="open-sans sm">{{movie.title}}</p>
+        </td>
+
+        <td>
+          <p class="open-sans sm">{{movie.releaseDate}}</p>
+        </td>
+
+        <td>
+          <p class="open-sans sm">{{movie.length}}</p>
+        </td>
+
+        <td>
+          <p class="open-sans sm">{{movie.director}}</p>
+        </td>
+
+        <td>
+          <div class="certification-wrapper">
+            <p [ngStyle]="getCertificationColor(movie.certification)" class="open-sans sm certification-text bold">
+              {{movie.certification}}</p>
+          </div>
+        </td>
+
+        <td>
+          <p class="lora sm">{{movie.ratingPercentage}}</p>
+        </td>
+      </tr>
+
+    </table>
+
+    <!-- Empty List -->
+    <div class="empty-list" *ngIf="filteredMovies.length === 0 && !isLoading">
+      <p class="libre">No movies found.</p>
+    </div>
+
+
+    <!-- Footer -->
+    <div class="table-footer" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1.5rem">
+
+      <!-- Go to the First Page Button -->
+      <div fxLayoutGap="-1.15rem">
+        <mat-icon class="arrow-icon cursor">arrow_back_ios</mat-icon>
+        <mat-icon class="arrow-icon cursor">arrow_back_ios</mat-icon>
+      </div>
+
+      <!-- Go to the Previous Page Button -->
+      <div>
+        <mat-icon class="arrow-icon cursor">arrow_back_ios</mat-icon>
+      </div>
+
+      <!-- Page Number -->
+      <div class="footer-page-number cursor" fxLayoutAlign="center center">
+        <p class="open-sans sm text-grey">1</p>
+      </div>
+
+      <!-- Go to the next Page Button -->
+      <div>
+        <mat-icon class="arrow-icon cursor">arrow_forward_ios</mat-icon>
+      </div>
+
+      <!-- Go to the last Page Button -->
+      <div fxLayoutGap="-1.15rem">
+        <mat-icon class="arrow-icon cursor">arrow_forward_ios</mat-icon>
+        <mat-icon class="arrow-icon cursor">arrow_forward_ios</mat-icon>
+      </div>
+    </div>
+
+  </div>
+</div>

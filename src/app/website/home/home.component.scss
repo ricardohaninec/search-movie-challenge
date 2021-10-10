@@ -1,0 +1,149 @@
+@import "../../../assets/scss/variables.scss";
+
+.container {
+    height: 100%;
+    padding-top: 3rem;
+}
+
+.table-container,
+.table-footer {
+    background-color: $white;
+    min-width: 60rem;
+}
+
+.table-header {
+    background-color: rgb(247, 248, 249);
+}
+
+.table-title-container {
+    min-height: 4rem;
+}
+
+.button,
+.selected-button {
+    border-radius: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: $white;
+}
+
+.button {
+    border: 1px $blue-grey solid;
+}
+
+.selected-button {
+    border: 3px $blue solid;
+    box-shadow: 0px 0px 6px $blue;
+}
+
+.selected-row {
+    background-color: $light-blue;
+}
+
+th,
+td {
+    border-bottom: 1px solid $light-grey;
+    min-width: 4rem;
+}
+
+th,
+td,
+.table-footer,
+.dropdown-header,
+.dropdown-filter {
+    height: 3rem;
+}
+
+.table-footer {
+    border-bottom: 1px solid $light-grey;
+}
+
+.arrow-icon {
+    font-size: 0.75rem;
+    color: $grey;
+    height: 100%;
+    width: auto;
+    margin-top: 0.25rem;
+}
+
+.footer-page-number {
+    background-color: $light-blue;
+    width: 2rem;
+    border-radius: 10%;
+    height: 2rem;
+}
+
+.certification-wrapper {
+    width: fit-content;
+}
+
+.certification-text {
+    padding: 1px 4px 1px 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.dropdown-container {
+    min-width: 13rem;
+    position: relative;
+}
+
+.dropdown-box,
+.search-input {
+    height: 80%;
+    width: 80%;
+    border-radius: 4px;
+    border: 1px solid $light-grey;
+}
+
+.dropdown-box {
+    background-color: $white;
+}
+
+.focus-dropdown-menu {
+    box-shadow: 0px 0px 6px $blue;
+    border: 1px solid $blue;
+}
+
+.search-input {
+    padding: 7px 7px;
+    margin: 8px 0;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    outline: none !important;
+    border: 1px solid $blue;
+    box-shadow: 0px 0px 6px $blue;
+}
+
+.floating-dropdown {
+    position: absolute;
+    background-color: white;
+    width: 80%;
+    max-height: 15rem;
+    overflow-y: scroll;
+    padding: 0 1rem 0.5rem 1rem;
+    border: 1px solid $light-grey;
+}
+
+.floating-dropdown::-webkit-scrollbar {
+    display: none;
+}
+
+.select-all-directors {
+    min-height: 2rem;
+    height: 2rem;
+    margin-top: 0.5rem;
+}
+
+.dropdown-items-filter {
+    min-height: 2rem;
+    height: 2rem;
+}
+
+.empty-list{
+    background-color: $white; 
+    padding: 1rem;
+}

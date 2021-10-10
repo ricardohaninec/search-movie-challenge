@@ -1,0 +1,30 @@
+<div class="container" fxLayout="column" fxLayoutGap="1rem" fxLayoutAlign="space-between">
+    <div fxFlex="2rem" fxLayoutAlign="space-between">
+        <h2 class="text-grey open-sans">Movie Details</h2>
+        <div class="close-button cursor" (click)="close()">
+            <mat-icon class="icon-close">close</mat-icon>
+        </div>
+
+    </div>
+
+    <div fxFlex="auto" fxLayoutGap="0.5rem" fxLayout="column" class="content-container">
+        <h2 fxLayoutAlign="center" class="text-grey libre">{{data.title}}</h2>
+        <p class="text-grey libre" fxLayoutAlign="center">Directed by {{data.director}}</p>
+
+        <mat-chip-list>
+            <p class="text-grey libre bold">Cast:</p>
+            <mat-chip *ngFor="let cast of data.cast">{{cast}}</mat-chip>
+        </mat-chip-list>
+        <mat-chip-list>
+            <p class="text-grey libre bold">Genre:</p>
+            <mat-chip *ngFor="let genre of data.genre">{{genre}}</mat-chip>
+        </mat-chip-list>
+
+        <p class="text-grey libre bold">Plot:</p>
+        <p class="libre sm text-grey">{{data.plot}}
+        <p>
+
+    </div>
+
+    <p class="open-sans" fxFlex="5rem" fxLayoutAlign="end end">All movies data are from Wikipedia and IMDb</p>
+</div>
